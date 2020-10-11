@@ -14,6 +14,12 @@ const SongSchema = new Schema({
     },
     singers: {
         type: [String]
+    },
+    genre: {
+        type: String
+    },
+    album: {
+        type: String
     }
 });
 
