@@ -9,7 +9,9 @@ const PlaylistSchema = new Schema({
     songs: [{
         type: Schema.Types.ObjectId,
         ref: "song"
-    }]
+    }],
+    isAdmin : {type : Boolean , default:false},
+
 });
 
 const Playlist = mongoose.model('playlist', PlaylistSchema);
