@@ -19,7 +19,7 @@ router.post("/signUp", async (req, res) => {
     });
     res.json({ code: 1, data: { message: "user registered successfully" } });
   } catch (err) {
-    throw err;
+    //throw err;
     res.json({ code: 0, message: "something went wrong" });
   }
 });
