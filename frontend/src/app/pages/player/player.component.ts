@@ -3,6 +3,7 @@ import { AudioService } from '../../services/audio.service';
 import { CloudService } from '../../services/cloud.service';
 import { StreamState } from '../../interfaces/stream-state';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Song } from 'src/app/interfaces/transferInterfaces/song';
 
 @Component({
   selector: 'app-player',
@@ -10,18 +11,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrls: ['./player.component.scss'],
 })
 export class PlayerComponent {
-  files: Array<any> = [];
+  files: Song[] = [];
   state: StreamState;
   currentFile: any = {};
   constructor(
     public audioService: AudioService,
     public cloudService: CloudService
   ) {
-    // get media files
-    cloudService.getFiles().subscribe((files) => {
-      this.files = files;
-    });
-
     // listen to stream state
     this.audioService.getState().subscribe((state) => {
       this.state = state;
@@ -33,10 +29,17 @@ export class PlayerComponent {
     });
   }
 
+  getSongs() {
+    this.cloudService.getFiles().subscribe((files) => {
+      console.log('here');
+      this.files = files;
+    });
+  }
+
   openFile(file, index) {
     this.currentFile = { index, file };
     this.audioService.stop();
-    this.playStream(file.url);
+    this.playStream(file.audioUrl);
   }
   pause() {
     this.audioService.pause();
@@ -67,5 +70,9 @@ export class PlayerComponent {
   }
   onSliderChangeEnd(change) {
     this.audioService.seekTo(change.value);
+  }
+
+  ngOnInit() {
+    this.getSongs();
   }
 }
