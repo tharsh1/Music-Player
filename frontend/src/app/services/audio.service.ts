@@ -115,7 +115,6 @@ export class AudioService {
   }
 
   private updateStateEvents(event: Event): void {
-    console.log(event.type);
     switch (event.type) {
       case 'canplay':
         this.state.duration = this.audioObj.duration;

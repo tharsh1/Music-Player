@@ -23,9 +23,15 @@ export class PlayerComponent {
       this.state = state;
     });
   }
-  playStream(url) {
-    this.audioService.playStream(url).subscribe((events) => {
-      // listening for fun here
+  playStream(file) {
+    this.audioService.playStream(file.audioUrl).subscribe((events: Event) => {
+      if (events.type == 'ended') {
+        this.currentFile = {
+          file: this.files[this.currentFile.index + 1],
+          index: this.currentFile.index + 1,
+        };
+        this.playStream(this.currentFile.file);
+      }
     });
   }
 
@@ -39,7 +45,7 @@ export class PlayerComponent {
   openFile(file, index) {
     this.currentFile = { index, file };
     this.audioService.stop();
-    this.playStream(file.audioUrl);
+    this.playStream(file);
   }
   pause() {
     this.audioService.pause();
