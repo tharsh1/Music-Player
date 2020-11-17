@@ -17,6 +17,7 @@ mongoose
 app.use(cors());
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
+Playlist.create({ name: "Jazz songs" });
 
 app.use("/", require("./routes"));
 

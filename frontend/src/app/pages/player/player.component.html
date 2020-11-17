@@ -9,18 +9,15 @@
         <mat-list color="primary">
           <h3 mat-subheader>Playlists</h3>
           <mat-list-item
-            *ngFor="let file of files; let i = index"
-            (click)="openFile(file, i)"
+            class="item"
+            *ngFor="let playlist of playlists; let j = index"
+            [ngClass]="{ active: playlist._id === currentPlaylistId }"
+            (click)="loadPlaylist(playlist._id)"
           >
             <mat-icon color="primary" mat-list-icon>playlist_play</mat-icon>
-            <h4 mat-line>{{ file.name }}</h4>
+            <h4 mat-line>{{ playlist.name }}</h4>
             <!-- <h5 mat-line>by {{ file.artist }}</h5> -->
-            <h5 mat-line>by {{ file.singers | join }}</h5>
-            <mat-icon
-              color="primary"
-              *ngIf="currentFile.index === i && !state?.error"
-              >volume_up</mat-icon
-            >
+
             <h6 *ngIf="currentFile.index === i && state?.error">ERROR</h6>
             <mat-divider></mat-divider>
           </mat-list-item>
@@ -32,6 +29,7 @@
           <mat-list-item
             *ngFor="let file of files; let i = index"
             (click)="openFile(file, i)"
+            [ngClass]="{ active: currentFile.index === i }"
           >
             <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
             <h4 mat-line>{{ file.name }}</h4>

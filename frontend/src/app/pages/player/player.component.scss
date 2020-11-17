@@ -33,9 +33,16 @@
     .song-content {
       height: calc(83vh - 140px);
       .list {
-        overflow-y: hidden;
+        overflow: hidden;
+        .item {
+          cursor: pointer;
+          box-sizing: border-box;
+        }
+        .active {
+          background-color: rgb(60, 79, 182, 0.1);
+        }
         &:hover {
-          overflow: scroll;
+          overflow-y: scroll;
         }
         border-left: 1px solid darkgrey;
       }

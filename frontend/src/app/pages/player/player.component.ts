@@ -4,6 +4,7 @@ import { CloudService } from '../../services/cloud.service';
 import { StreamState } from '../../interfaces/stream-state';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Song } from 'src/app/interfaces/transferInterfaces/song';
+import { Playlist } from 'src/app/interfaces/transferInterfaces/Playlist';
 
 @Component({
   selector: 'app-player',
@@ -12,8 +13,10 @@ import { Song } from 'src/app/interfaces/transferInterfaces/song';
 })
 export class PlayerComponent {
   files: Song[] = [];
+  playlists: Playlist[];
   state: StreamState;
   currentFile: any = {};
+  currentPlaylistId: String;
   constructor(
     public audioService: AudioService,
     public cloudService: CloudService
@@ -39,6 +42,12 @@ export class PlayerComponent {
     this.cloudService.getFiles().subscribe((files) => {
       console.log('here');
       this.files = files;
+    });
+  }
+
+  getPlaylists() {
+    this.cloudService.getPlayLists().subscribe((playlists) => {
+      this.playlists = playlists;
     });
   }
 
@@ -70,6 +79,12 @@ export class PlayerComponent {
   isFirstPlaying() {
     return this.currentFile.index === 0;
   }
+  loadPlaylist(playlistId: String) {
+    this.currentPlaylistId = playlistId;
+    this.cloudService.getPlaylistSongs(playlistId).subscribe((songs) => {
+      this.files = songs;
+    });
+  }
 
   isLastPlaying() {
     return this.currentFile.index === this.files.length - 1;
@@ -80,5 +95,6 @@ export class PlayerComponent {
 
   ngOnInit() {
     this.getSongs();
+    this.getPlaylists();
   }
 }
