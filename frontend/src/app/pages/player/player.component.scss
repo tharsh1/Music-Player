@@ -34,9 +34,60 @@
       height: calc(83vh - 140px);
       .list {
         overflow: hidden;
+        .list-header {
+          display: flex;
+          justify-content: space-between;
+          .icon-button {
+            margin-right: 20px;
+            .icon {
+              color: #888;
+            }
+          }
+        }
+
+        .add-playlist-container {
+          width: 100%;
+          // padding: 0 10px;
+          display: flex;
+          justify-content: space-around;
+          align-items: baseline;
+          border: 1px solid #eee;
+        }
         .item {
           cursor: pointer;
           box-sizing: border-box;
+        }
+        .song-info {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding-left: 20px;
+          height: inherit;
+        }
+        .list-item {
+          flex: 1;
+          display: flex;
+          flex-direction: row;
+          cursor: pointer;
+          align-items: center;
+          .music-note-icon {
+            align-items: center;
+            justify-content: center;
+            .mat-icon {
+              font-size: 32px;
+              padding: 10px;
+              width: 40px;
+            }
+          }
+          .song-details {
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            h4,
+            h5 {
+              margin: 0;
+            }
+          }
         }
         .active {
           background-color: rgb(60, 79, 182, 0.1);

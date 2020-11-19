@@ -7,7 +7,33 @@
     <div class="song-content" style="width: 100%; display: flex; flex: 1">
       <div class="list" style="width: 30%">
         <mat-list color="primary">
-          <h3 mat-subheader>Playlists</h3>
+          <div class="list-header">
+            <h3 mat-subheader>Playlists</h3>
+            <button
+              (click)="toggleAddPlayList()"
+              mat-button
+              class="icon-button"
+            >
+              <mat-icon class="icon">add</mat-icon>
+            </button>
+          </div>
+          <div
+            class="add-playlist-container"
+            [ngStyle]="{ display: addNewPlaylistToggle ? 'flex' : 'none' }"
+          >
+            <mat-form-field appearance="outline">
+              <mat-label>Playlist Name</mat-label>
+              <input matInput #newPlaylistname />
+            </mat-form-field>
+            <button
+              (click)="addNewPlaylist(newPlaylistname.value)"
+              mat-raised-button
+              color="primary"
+            >
+              ADD
+            </button>
+          </div>
+
           <mat-list-item
             class="item"
             *ngFor="let playlist of playlists; let j = index"
@@ -28,19 +54,40 @@
           <h3 mat-subheader>Songs</h3>
           <mat-list-item
             *ngFor="let file of files; let i = index"
-            (click)="openFile(file, i)"
             [ngClass]="{ active: currentFile.index === i }"
           >
-            <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
-            <h4 mat-line>{{ file.name }}</h4>
-            <!-- <h5 mat-line>by {{ file.artist }}</h5> -->
-            <h5 mat-line>by {{ file.singers | join }}</h5>
-            <mat-icon
-              color="primary"
-              *ngIf="currentFile.index === i && !state?.error"
-              >volume_up</mat-icon
-            >
-            <h6 *ngIf="currentFile.index === i && state?.error">ERROR</h6>
+            <div class="list-item" (click)="openFile(file, i)">
+              <div class="music-note-icon">
+                <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
+              </div>
+              <div class="song-details">
+                <h4 mat-line>{{ file.name }}</h4>
+                <!-- <h5 mat-line>by {{ file.artist }}</h5> -->
+                <h5 mat-line>by {{ file.singers | join }}</h5>
+              </div>
+              <div class="song-info">
+                <mat-icon
+                  color="primary"
+                  *ngIf="currentFile.index === i && !state?.error"
+                  >volume_up</mat-icon
+                >
+                <h6 *ngIf="currentFile.index === i && state?.error">ERROR</h6>
+              </div>
+            </div>
+            <div class="add-to-playlist-container">
+              <button mat-button [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button
+                  *ngFor="let playlist of playlists; let i = index"
+                  (click)="addToPlaylist(file, i)"
+                  mat-menu-item
+                >
+                  {{ playlist.name }}
+                </button>
+              </mat-menu>
+            </div>
             <mat-divider></mat-divider>
           </mat-list-item>
         </mat-list>

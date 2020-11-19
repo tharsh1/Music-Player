@@ -1,3 +1,4 @@
+require("dotenv").config();
 const app = require("express")();
 const bodyParser = require("body-parser");
 const User = require("./models/user");
@@ -7,13 +8,14 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 mongoose
-  .connect("mongodb://localhost:27017/music-player", {
+  .connect(process.env.DBURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => {
     console.log("connected to db");
   });
+
 app.use(cors());
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));

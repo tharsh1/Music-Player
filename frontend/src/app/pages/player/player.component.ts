@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AudioService } from '../../services/audio.service';
 import { CloudService } from '../../services/cloud.service';
 import { StreamState } from '../../interfaces/stream-state';
@@ -17,9 +17,11 @@ export class PlayerComponent {
   state: StreamState;
   currentFile: any = {};
   currentPlaylistId: String;
+  addNewPlaylistToggle: boolean = false;
   constructor(
     public audioService: AudioService,
-    public cloudService: CloudService
+    public cloudService: CloudService,
+    private cdr: ChangeDetectorRef
   ) {
     // listen to stream state
     this.audioService.getState().subscribe((state) => {
@@ -27,7 +29,7 @@ export class PlayerComponent {
     });
   }
   playStream(file) {
-    this.audioService.playStream(file.audioUrl).subscribe((events: Event) => {
+    this.audioService.playStream(file.audioURL).subscribe((events: Event) => {
       if (events.type == 'ended') {
         this.currentFile = {
           file: this.files[this.currentFile.index + 1],
@@ -50,8 +52,12 @@ export class PlayerComponent {
       this.playlists = playlists;
     });
   }
+  toggleAddPlayList() {
+    this.addNewPlaylistToggle = !this.addNewPlaylistToggle;
+  }
 
   openFile(file, index) {
+    console.log(file);
     this.currentFile = { index, file };
     this.audioService.stop();
     this.playStream(file);
@@ -86,6 +92,19 @@ export class PlayerComponent {
     });
   }
 
+  addNewPlaylist(playlistName) {
+    console.log(playlistName);
+    this.playlists = [
+      ...this.playlists,
+      {
+        name: playlistName,
+        _id: playlistName + Math.random(),
+        songs: [],
+      },
+    ];
+    this.toggleAddPlayList();
+  }
+
   isLastPlaying() {
     return this.currentFile.index === this.files.length - 1;
   }
@@ -93,8 +112,15 @@ export class PlayerComponent {
     this.audioService.seekTo(change.value);
   }
 
+  addToPlaylist(song: Song, index: number) {
+    this.playlists[index].songs.push(song);
+    this.cdr.detectChanges();
+    console.log(this.playlists[index]);
+  }
+
   ngOnInit() {
     this.getSongs();
     this.getPlaylists();
+    console.log('hlo');
   }
 }
