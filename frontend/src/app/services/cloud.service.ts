@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { promise } from 'protractor';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { base } from '../interfaces/transferInterfaces/base';
@@ -29,5 +30,17 @@ export class CloudService {
     return this.http
       .get<SongsList>(`${this.BASE_URL}/playlist/${playlistId}`)
       .pipe(map((res: SongsList) => res.data));
+  }
+
+  addToPlaylist(playlistId: String, songId: String): Promise<base<any>> {
+    return this.http
+      .post<base<any>>(`${this.BASE_URL}/playlist/${playlistId}`, { songId })
+      .toPromise();
+  }
+
+  createPlaylist(name: String): Promise<base<any>> {
+    return this.http
+      .post<base<any>>(`${this.BASE_URL}/playlists`, { name })
+      .toPromise();
   }
 }

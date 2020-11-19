@@ -1,4 +1,5 @@
 export interface Song {
+  _id: String;
   name: String;
   imageURL: String;
   audioURL: String;

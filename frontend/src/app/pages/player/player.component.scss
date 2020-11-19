@@ -17,21 +17,23 @@
   .content {
     height: 83vh;
     .logo {
+      display: flex;
       padding: 0.5rem 0;
       text-align: center;
-      height: 120px;
+      height: 60px;
+      align-items: center;
       box-shadow: 0 2px 6px 0px rgba(0, 0, 0, 0.5);
       font-size: 20px;
       color: #3f51b5;
       .mat-icon {
-        height: 80px !important;
-        width: 80px !important;
-        font-size: 80px !important;
+        height: 60px !important;
+        width: 60px !important;
+        font-size: 60px !important;
       }
     }
 
     .song-content {
-      height: calc(83vh - 140px);
+      height: calc(83vh - 75px);
       .list {
         overflow: hidden;
         .list-header {

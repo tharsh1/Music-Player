@@ -94,6 +94,7 @@ export class PlayerComponent {
 
   addNewPlaylist(playlistName) {
     console.log(playlistName);
+    const promise = this.cloudService.createPlaylist(playlistName);
     this.playlists = [
       ...this.playlists,
       {
@@ -113,9 +114,10 @@ export class PlayerComponent {
   }
 
   addToPlaylist(song: Song, index: number) {
-    this.playlists[index].songs.push(song);
-    this.cdr.detectChanges();
-    console.log(this.playlists[index]);
+    // this.playlists[index].songs.push(song);
+    // this.cdr.detectChanges();
+    // console.log(this.playlists[index]);
+    this.cloudService.addToPlaylist(this.playlists[index]._id, song._id);
   }
 
   ngOnInit() {
