@@ -1,3 +1,4 @@
+const Playlist = require("../models/playlist");
 const User = require("../models/user");
 
 const router = require("express").Router();
@@ -15,7 +16,22 @@ router
       res.json({ code: 0, message: "something went wrong" });
     }
   })
-  .post(async (req, res) => {});
+  .post(async (req, res) => {
+    try {
+      const playList = await Playlist.create({
+        name: req.body.name,
+        songs: [],
+        isAdmin: true,
+      });
+
+      await User.findByIdAndUpdate(req.user.id, {
+        $push: { playlists: playList._id },
+      });
+      await res.json({ code: 1 });
+    } catch (err) {
+      res.json({ code: 0, message: err });
+    }
+  });
 
 router.get("/playlist/:id", async (req, res) => {
   try {
