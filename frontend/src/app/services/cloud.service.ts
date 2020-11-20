@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { promise } from 'protractor';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { base } from '../interfaces/transferInterfaces/base';

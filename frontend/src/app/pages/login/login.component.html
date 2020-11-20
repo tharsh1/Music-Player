@@ -1,0 +1,54 @@
+<div class="content">
+  <div class="login-card">
+    <div class="form">
+      <form (submit)="onSubmit()">
+        <div class="form-body">
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="field">
+              <mat-label>Username</mat-label>
+              <input
+                matInput
+                placeholder=""
+                [formControl]="usernameFormControl"
+                [(ngModel)]="formData.username"
+              />
+
+              <mat-error *ngIf="usernameFormControl.hasError('required')">
+                Username is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="field">
+              <mat-label>Password</mat-label>
+              <input
+                matInput
+                placeholder=""
+                type="password"
+                [formControl]="passwordFormControl"
+                [(ngModel)]="formData.password"
+              />
+              <mat-error *ngIf="passwordFormControl.hasError('required')">
+                password is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-row" style="margin-top: 20px">
+            <button mat-raised-button color="primary" class="loginbtn">
+              LOGIN
+            </button>
+          </div>
+          <div class="form-row">
+            <button type="submit" mat-button color="primary" class="loginbtn">
+              SIGN UP
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="logo">
+      <mat-icon>music_note</mat-icon>
+      <h1>Musica</h1>
+    </div>
+  </div>
+</div>

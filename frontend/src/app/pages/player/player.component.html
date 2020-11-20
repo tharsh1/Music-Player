@@ -79,6 +79,7 @@
                 <mat-icon>add</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
+                <button mat-menu-item disabled>Select a Playlist</button>
                 <button
                   *ngFor="let playlist of playlists; let i = index"
                   (click)="addToPlaylist(file, i)"
