@@ -1,5 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { base } from '../interfaces/transferInterfaces/base';
 
 const baseUrl = 'http://localhost:3000';
 
@@ -34,11 +37,12 @@ export class UserServerRequestsService {
     });
   }
 
-  get(route: string, data?: any) {
+  get<T>(route: string, data?: any): Observable<base<T>> {
+    console.log('----', this.loggedIn);
     const header = this.loggedIn
-      ? { Authorization: `Bearer ${this.token}` }
+      ? { Authorization: ` ${this.token}` }
       : undefined;
-
+    console.log(header);
     let params = new HttpParams();
     if (data !== undefined) {
       Object.getOwnPropertyNames(data).forEach((key) => {
@@ -46,7 +50,7 @@ export class UserServerRequestsService {
       });
     }
 
-    return this.http.get(baseUrl + route, {
+    return this.http.get<base<T>>(baseUrl + route, {
       responseType: 'json',
       headers: header,
       params,

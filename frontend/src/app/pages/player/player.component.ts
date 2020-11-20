@@ -13,7 +13,7 @@ import { Playlist } from 'src/app/interfaces/transferInterfaces/Playlist';
 })
 export class PlayerComponent {
   files: Song[] = [];
-  playlists: Playlist[];
+  playlists: Playlist[] = [];
   state: StreamState;
   currentFile: any = {};
   currentPlaylistId: String;
@@ -49,7 +49,8 @@ export class PlayerComponent {
 
   getPlaylists() {
     this.cloudService.getPlayLists().subscribe((playlists) => {
-      this.playlists = playlists;
+      console.log(this.playlists);
+      this.playlists = [...this.playlists, ...playlists];
     });
   }
   toggleAddPlayList() {
