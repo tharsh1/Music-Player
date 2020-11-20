@@ -26,16 +26,19 @@ router.post("/signUp", async (req, res) => {
 
 router.post("/signIn", async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.body.username },{username :1 , password : 1});
+    const user = await User.findOne(
+      { username: req.body.username },
+      { username: 1, password: 1 }
+    );
     if (user) {
-        const { password, ...profile } = user.toJSON();
+      const { password, ...profile } = user.toJSON();
       if (bcrypt.compareSync(req.body.password, password)) {
-        const token = jwt.sign(
-          { id: user._id,},
-          config.jwtSecret
-          );
-          
-          res.json({code : 1 , data : {auth:true , token : `Bearer ${token}`,profile}})
+        const token = jwt.sign({ id: user._id }, config.jwtSecret);
+
+        res.json({
+          code: 1,
+          data: { auth: true, token: `Bearer ${token}`, profile },
+        });
       } else {
         throw new Error("Incorrect Password");
       }
@@ -43,7 +46,7 @@ router.post("/signIn", async (req, res) => {
       throw new Error("user not found");
     }
   } catch (err) {
-    res.json({ code: 0, message: err });
+    res.json({ code: 0, message: err.message });
   }
 });
 

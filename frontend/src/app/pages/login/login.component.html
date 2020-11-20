@@ -33,6 +33,9 @@
               </mat-error>
             </mat-form-field>
           </div>
+          <div class="form-row">
+            <p *ngIf="error" style="color: red">invalid credentials</p>
+          </div>
           <div class="form-row" style="margin-top: 20px">
             <button mat-raised-button color="primary" class="loginbtn">
               LOGIN
