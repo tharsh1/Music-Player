@@ -1,3 +1,5 @@
+const User = require("../models/user");
+
 const router = require("express").Router();
 
 router
@@ -9,6 +11,7 @@ router
       );
       res.json({ code: 1, data: playlists });
     } catch (err) {
+      console.log(err);
       res.json({ code: 0, message: "something went wrong" });
     }
   })
@@ -24,7 +27,7 @@ router.get("/playlist/:id", async (req, res) => {
 });
 
 router.post("/playlist/:playlistId/add/", async (req, res) => {
-    const {songs} = req.body;
+  const { songs } = req.body;
 });
 
 module.exports = router;
