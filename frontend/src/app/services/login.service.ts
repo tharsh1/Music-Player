@@ -71,6 +71,8 @@ export class LoginService {
 
     this.loggedIn.next(false);
     localStorage.clear();
-    this.router.navigate(['/']);
+    this.router
+      .navigateByUrl('/login', { skipLocationChange: true })
+      .then(() => this.router.navigate(['/']));
   }
 }

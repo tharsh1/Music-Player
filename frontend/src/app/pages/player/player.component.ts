@@ -5,6 +5,8 @@ import { StreamState } from '../../interfaces/stream-state';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Song } from 'src/app/interfaces/transferInterfaces/song';
 import { Playlist } from 'src/app/interfaces/transferInterfaces/Playlist';
+import { LoginService } from 'src/app/services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-player',
@@ -17,11 +19,13 @@ export class PlayerComponent {
   state: StreamState;
   currentFile: any = {};
   currentPlaylistId: String;
+  isLoggedIn: Boolean = false;
   addNewPlaylistToggle: boolean = false;
   constructor(
     public audioService: AudioService,
     public cloudService: CloudService,
-    private cdr: ChangeDetectorRef
+    private router: Router,
+    private loginService: LoginService
   ) {
     // listen to stream state
     this.audioService.getState().subscribe((state) => {
@@ -102,6 +106,7 @@ export class PlayerComponent {
         name: playlistName,
         _id: playlistName + Math.random(),
         songs: [],
+        isAdmin: false,
       },
     ];
     this.toggleAddPlayList();
@@ -121,9 +126,16 @@ export class PlayerComponent {
     this.cloudService.addToPlaylist(this.playlists[index]._id, song._id);
   }
 
+  logout() {
+    this.loginService.logout();
+  }
+
   ngOnInit() {
     this.getSongs();
     this.getPlaylists();
     console.log('hlo');
+    this.loginService.isLoggedIn.subscribe((isloggedIn) => {
+      this.isLoggedIn = isloggedIn;
+    });
   }
 }

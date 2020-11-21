@@ -4,4 +4,5 @@ export interface Playlist {
   _id: String;
   name: String;
   songs: Song[];
+  isAdmin: Boolean;
 }
